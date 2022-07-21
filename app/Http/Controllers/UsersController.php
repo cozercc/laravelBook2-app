@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -30,7 +31,8 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-
+        // 登録が成功したら、自動ログイン
+        Auth::login($user);
         session()->flash('success', 'よこそう');
         return redirect()->route('users.show', [$user]);
     }
